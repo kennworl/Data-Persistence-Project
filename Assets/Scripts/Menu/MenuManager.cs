@@ -18,6 +18,8 @@ public class MenuManager : MonoBehaviour
 
         hiScoreDisplay.GetComponent<TMP_Text>().text = HiScoreManager.Instance.GetAllHiScores();
     }
+
+    // When the start button is pressed, if the name field is not empty then load the main scene
     public void StartNew()
     {
         if (playerName.GetComponent<TMP_InputField>().text != "")
@@ -26,6 +28,8 @@ public class MenuManager : MonoBehaviour
             SceneManager.LoadScene(1);
         }
     }
+
+    // when the quit button is pressed, save the high scores and quit the game completely.
     public void Exit()
     {
         HiScoreManager.Instance.SaveHiScores();

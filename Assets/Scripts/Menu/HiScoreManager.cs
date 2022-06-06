@@ -15,6 +15,7 @@ public class HiScoreManager : MonoBehaviour
         public int score;
         public string playerName;
 
+        // struct for the High score entry
         public HiScore(int score, string playerName)
         {
             this.score = score;
@@ -22,6 +23,7 @@ public class HiScoreManager : MonoBehaviour
         }
     }
 
+    // method for the list sort
     private static int CompareHiScores(HiScore x, HiScore y)
     {
         if (x.score == y.score)
@@ -39,6 +41,7 @@ public class HiScoreManager : MonoBehaviour
     private int highestScore;
     private string highestScorePlayerName;
 
+    // Singleton handler
     private void Awake()
     {
         //if we already have a singleton instance then 
@@ -55,12 +58,14 @@ public class HiScoreManager : MonoBehaviour
         LoadHiScores();
     }
 
+    // the json serialisable list object
     [System.Serializable]
     class SaveData
     {
         public List<HiScore> hiScoreList;
     }
 
+    // Add in a new HiScore and then sort the list in descending order, and trim the list to 10 entries
     public void AddHiScore(int pScore, string pName)
     {
         HiScore hiScore = new HiScore(pScore, pName);
@@ -72,6 +77,7 @@ public class HiScoreManager : MonoBehaviour
         }
     }
 
+    // returns the top element of the high scores (or a string saying there are no high scores)
     public string GetBestScore()
     {
         if (hiScoreList.Count == 0) return "No HighScore";
@@ -79,6 +85,7 @@ public class HiScoreManager : MonoBehaviour
         return "High Score : " + hiScoreList[0].playerName + " : " + hiScoreList[0].score;
     }
 
+    // Getter for the highest score as an integer
     public int GetBestScoreInt()
     {
         if (hiScoreList.Count == 0) return 0;
@@ -86,6 +93,7 @@ public class HiScoreManager : MonoBehaviour
         return hiScoreList[0].score;
     }
 
+    // create a big text string with CRs for up to 10 high score entries.
     public string GetAllHiScores()
     {
         if (hiScoreList.Count == 0) return "No HighScores";
@@ -100,7 +108,7 @@ public class HiScoreManager : MonoBehaviour
         return scores;
     }
 
-
+    // Save HiScores from memory into a json file
     public void SaveHiScores()
     {
         SaveData data = new SaveData();
@@ -111,6 +119,7 @@ public class HiScoreManager : MonoBehaviour
         File.WriteAllText(Application.persistentDataPath + "/hiScoreSavefile.json", json);
     }
 
+    // Load HiScores into memory from the json file or create a new list if that doesn't exist.
     public void LoadHiScores()
     {
         string path = Application.persistentDataPath + "/hiScoreSavefile.json";
